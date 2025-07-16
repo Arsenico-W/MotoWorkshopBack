@@ -88,15 +88,14 @@ model OrdenServicio {
   observaciones_mecanico                                         String                  @default("Por asignar")
   vendedor                                                       String                  @default("Por asignar") @db.VarChar(100)
   observaciones_factura                                          String                  @default("Por asignar")
-  id_mecanico                                                    Int?
   id_notificaciones                                              Int?
   Factura                                                        Factura?
   MotoCliente                                                    MotoCliente             @relation(fields: [id_moto_cliente], references: [id_moto_cliente], onDelete: Cascade)
-  mecanico                                                       mecanico?               @relation(fields: [id_mecanico], references: [id_mecanico], onDelete: NoAction, onUpdate: NoAction, map: "fk_mecanico")
   notificaciones_OrdenServicio_id_notificacionesTonotificaciones notificaciones?         @relation("OrdenServicio_id_notificacionesTonotificaciones", fields: [id_notificaciones], references: [id_notificaciones], onDelete: NoAction, onUpdate: NoAction, map: "fk_notificaciones")
   RepuestoOrdenServicio                                          RepuestoOrdenServicio[]
   ServicioOrdenServicio                                          ServicioOrdenServicio[]
   notificaciones_notificaciones_id_orden_servicioToOrdenServicio notificaciones[]        @relation("notificaciones_id_orden_servicioToOrdenServicio")
+  mecanico                                                       String                  @default("Por asignar") @db.VarChar(100)
 }
 
 model Proveedor {
@@ -207,7 +206,6 @@ model mecanico {
   correo          String?           @db.VarChar(100)
   direccion       String?           @db.VarChar(200)
   cedula          String            @unique @db.VarChar(20)
-  OrdenServicio   OrdenServicio[]
   mecanicodetalle mecanicodetalle[]
 }
 

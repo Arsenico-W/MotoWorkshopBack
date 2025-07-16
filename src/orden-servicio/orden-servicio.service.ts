@@ -106,14 +106,14 @@ async create(data: any) {
                 observaciones: data.observaciones,
                 observaciones_mecanico: data.observaciones_mecanico,
                 observaciones_factura: data.observaciones_factura,
-                id_mecanico: data.id_mecanico,
+                mecanico: data.mecanico,
                 vendedor: data.vendedor,
                 id_moto_cliente: data.id_moto_cliente,
             },
         });
         // Crear servicios asociados
-        if (data.servicios && data.servicios.length > 0) {
-            const serviciosOrden = data.servicios.map((servicio: any) => ({
+        if (data.Servicio && data.Servicio.length > 0) {
+            const serviciosOrden = data.Servicio.map((servicio: any) => ({
                 id_orden_servicio: nuevaOrden.id_orden_servicio,
                 id_servicio: servicio.id_servicio,
                 precio: servicio.precio,
@@ -121,8 +121,8 @@ async create(data: any) {
             await this.prisma.servicioOrdenServicio.createMany({ data: serviciosOrden });
         }
         // Crear repuestos asociados y actualizar stock
-        if (data.repuestos && data.repuestos.length > 0) {
-            const repuestosOrden = data.repuestos.map((repuesto: any) => ({
+        if (data.Repuesto && data.Repuesto.length > 0) {
+            const repuestosOrden = data.Repuesto.map((repuesto: any) => ({
                 id_orden_servicio: nuevaOrden.id_orden_servicio,
                 id_repuesto: repuesto.id_repuesto,
                 cantidad: repuesto.cantidad,
@@ -291,7 +291,7 @@ async update(id: number, data: any) {
                     observaciones: data.observaciones,
                     observaciones_mecanico: data.observaciones_mecanico,
                     observaciones_factura: data.observaciones_factura,
-                    id_mecanico: data.id_mecanico,
+                    mecanico: data.mecanico,
                     vendedor: data.vendedor,
                     id_moto_cliente: data.id_moto_cliente,
                 },
@@ -300,8 +300,8 @@ async update(id: number, data: any) {
             await tx.repuestoOrdenServicio.deleteMany({
                 where: { id_orden_servicio: id },
             });
-            if (data.repuestos && data.repuestos.length > 0) {
-                for (const repuesto of data.repuestos) {
+            if (data.Repuesto && data.Repuesto.length > 0) {
+                for (const repuesto of data.Repuesto) {
                     await tx.repuestoOrdenServicio.create({
                         data: {
                             id_orden_servicio: id,
@@ -316,8 +316,8 @@ async update(id: number, data: any) {
             await tx.servicioOrdenServicio.deleteMany({
                 where: { id_orden_servicio: id },
             });
-            if (data.servicios && data.servicios.length > 0) {
-                for (const servicio of data.servicios) {
+            if (data.Servicio && data.Servicio.length > 0) {
+                for (const servicio of data.Servicio) {
                     await tx.servicioOrdenServicio.create({
                         data: {
                             id_orden_servicio: id,
