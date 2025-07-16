@@ -186,21 +186,12 @@ async create(data: any) {
     const mecanico = await this.prisma.mecanico.findUnique({
       where: { id_mecanico: id },
       include: {
-        OrdenServicio: true,
         mecanicodetalle: true,
       },
     });
 
     if (!mecanico) {
       throw new BadRequestException('El mecánico no existe.');
-    }
-
-    // Verificar si tiene órdenes de servicio asociadas
-    if (mecanico.OrdenServicio && mecanico.OrdenServicio.length > 0) {
-      throw new ConflictException(
-        `No se puede eliminar el mecánico porque tiene ${mecanico.OrdenServicio.length} orden(es) de servicio asociada(s). ` +
-        'Primero debe reasignar o completar las órdenes de servicio existentes.'
-      );
     }
 
     // Eliminar en transacción para mantener consistencia
